@@ -1,8 +1,7 @@
 import './style.css'
 
-const app = document.querySelector<HTMLDivElement>('#app')!
+const $gameContainer = document.querySelector<HTMLDivElement>('#board-container')!;
 
-app.innerHTML = `
-  <h1>Hello Vite!</h1>
-  <a href="https://vitejs.dev/guide/features.html" target="_blank">Documentation</a>
-`
+let tile = document.createElement('div');
+tile.classList.add('tile');
+$gameContainer.appendChild(tile);

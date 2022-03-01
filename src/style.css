@@ -1,8 +1,51 @@
-#app {
+html, body {
+	height: 100%;
+}
+
+body {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  margin: 0px;
+  background-color: #2c3e50;
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
+}
+
+header {
+    /* position: absolute; */
+    background-color: #28A282;
+    padding: 0.5rem 0;
+    text-align: center;
+    color: #FFF;
+    text-transform: uppercase;
+    margin: 0px;
+}
+
+#game-container {
+  background-color: darkgray;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#board-container {
+  margin: 10px;
+  background-color: lightgray;
+  height: 60%;
+}
+
+#keyboard-container {
+  margin: 10px;
+  margin-top: 0px;
+  background-color: lightgray;
+  height: 40%;
+}
+
+.tile {
+  width: 100px;
+  height: 100px;
+
 }
