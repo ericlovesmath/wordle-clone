@@ -1,3 +1,8 @@
+:root {
+  --total-guesses: 6;
+  --word-len: 5;
+}
+
 html, body {
 	height: 100%;
 }
@@ -32,20 +37,31 @@ header {
 }
 
 #board-container {
+  flex: 7;
   margin: 10px;
   background-color: lightgray;
-  height: 60%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.game-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 5px;
+}
+
+.tile {
+  margin: 0px 5px;
+  width: 70px;
+  height: 70px;
+  background-color: gray;
 }
 
 #keyboard-container {
   margin: 10px;
   margin-top: 0px;
   background-color: lightgray;
-  height: 40%;
-}
-
-.tile {
-  width: 100px;
-  height: 100px;
-
+  flex: 3;
 }
