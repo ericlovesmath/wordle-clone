@@ -20,7 +20,6 @@ body {
 }
 
 header {
-    /* position: absolute; */
     background-color: #28A282;
     padding: 0.5rem 0;
     text-align: center;
@@ -30,38 +29,59 @@ header {
 }
 
 #game-container {
-  background-color: darkgray;
+  background-color: lightgray;
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
-#board-container {
+#game-board {
   flex: 7;
   margin: 10px;
-  background-color: lightgray;
   display: flex;
   justify-content: center;
   flex-direction: column;
 }
 
-.game-row {
+#game-board > .game-row {
   display: flex;
   flex-direction: row;
   justify-content: center;
   padding: 5px;
 }
 
-.tile {
+#game-board > .game-row > .tile {
   margin: 0px 5px;
   width: 70px;
   height: 70px;
+  border: 3px solid gray;
   background-color: gray;
 }
 
-#keyboard-container {
+#keyboard {
   margin: 10px;
   margin-top: 0px;
-  background-color: lightgray;
   flex: 3;
+  display: flex;
+  flex-direction: column;
+}
+
+#keyboard > .row {
+  margin: 5px;
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+#keyboard > .row > .key {
+  width: 60px;
+  margin: 0px 5px;
+  background-color: gray;
+}
+
+#keyboard > .row > .key.wide-key {
+  width: 95px;
+  margin: 0px 5px;
+  background-color: gray;
 }
