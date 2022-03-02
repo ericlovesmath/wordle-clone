@@ -1,15 +1,25 @@
-import './style.css'
+import './style.css';
+import { POSSIBLE_WORDS } from './allowed-words-list';
+import { POSSIBLE_ANSWERS } from './allowed-answers-list';
 
 const $gameBoard = document.querySelector<HTMLDivElement>('#game-board')!;
 const $keyboard = document.querySelector<HTMLDivElement>('#keyboard')!;
 
-// Guess Grid
+main()
 
-let GUESS_LEN = 5;
-let GUESS_LIMIT = 6;
+function main() {
 
-initGrid(GUESS_LEN, GUESS_LIMIT);
-initKeyboard();
+  let GUESS_LEN = 5;
+  let GUESS_LIMIT = 6;
+
+  initGrid(GUESS_LEN, GUESS_LIMIT);
+  createKeyboard();
+
+  console.log(chooseRandomAnswer());
+
+  addGuess('A');
+
+}
 
 function initGrid(guess_len: number, guess_limit: number): HTMLDivElement[] {
   let game_rows: HTMLDivElement[] = [];
@@ -22,39 +32,58 @@ function initGrid(guess_len: number, guess_limit: number): HTMLDivElement[] {
       row.appendChild(tile);
       $gameBoard.appendChild(row);
     }
+    row.dataset.state = "incomplete";
     game_rows.push(row);
   }
+  game_rows[0].dataset.state = "current";
   return game_rows;
 }
 
-function initKeyboard() {
-  let key: HTMLDivElement;
+function createKeyboard() {
 
-  for (let i = 0; i < 10; i++) {
-    key = document.createElement('div');
-    key.classList.add('key');
-    $keyboard.children[0].appendChild(key);
-  }
+  [..."QWERTYUIOP"].forEach((c: string) => {
+    $keyboard.children[0].appendChild(createKey(c));
+  });
+  [..."ASDFGHJKL"].forEach((c: string) => {
+    $keyboard.children[1].appendChild(createKey(c));
+  });
 
-  for (let i = 0; i < 9; i++) {
-    key = document.createElement('div');
-    key.classList.add('key');
-    $keyboard.children[1].appendChild(key);
-  }
+  let enter_key = createKey("enter");
+  enter_key.classList.add('wide-key');
+  $keyboard.children[2].appendChild(enter_key);
 
-  key = document.createElement('div');
+  [..."ZXCVBNM"].forEach((c: string) => {
+    $keyboard.children[2].appendChild(createKey(c));
+  });
+
+  let delete_key = createKey("delete");
+  delete_key.classList.add('wide-key');
+  $keyboard.children[2].appendChild(delete_key);
+}
+
+function createKey(char: string): HTMLButtonElement {
+  let key = document.createElement('button');
   key.classList.add('key');
-  key.classList.add('wide-key');
-  $keyboard.children[2].appendChild(key);
+  key.value = char;
+  key.textContent = char;
+  key.dataset.state = 'unused';
+  key.onclick = function() {
+    addGuess(char);
+  };
+  return key;
+}
 
-  for (let i = 0; i < 7; i++) {
-    key = document.createElement('div');
-    key.classList.add('key');
-    $keyboard.children[2].appendChild(key);
-  }
+function addGuess(char: string) {
+  console.log("Guessing Letter: " + char);
+  const $row = $gameBoard.querySelector<HTMLDivElement>('[data-state="current"]')!.children!;
+  for (let i = 0; i < 5; i++) {
+    if ($row[i].textContent === '') {
+      $row[i].textContent = char;
+      return;
+    }
+  };
+}
 
-  key = document.createElement('div');
-  key.classList.add('key');
-  key.classList.add('wide-key');
-  $keyboard.children[2].appendChild(key);
+function chooseRandomAnswer(): string {
+  return POSSIBLE_ANSWERS[Math.floor(Math.random() * POSSIBLE_ANSWERS.length)];
 }
