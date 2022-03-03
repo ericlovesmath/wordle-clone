@@ -11,29 +11,27 @@ function main() {
   let GUESS_LEN = 5;
   let GUESS_LIMIT = 6;
 
-  createGrid(GUESS_LEN, GUESS_LIMIT);
-  createKeyboard();
-
   let ANSWER = chooseRandomAnswer();
+
+  createGrid(GUESS_LEN, GUESS_LIMIT);
+  createKeyboard(ANSWER);
+
   console.log(`Answer: ${ANSWER}`);
 }
 
-function createGrid(guess_len: number, guess_limit: number): HTMLDivElement[] {
-  let game_rows: HTMLDivElement[] = [];
+function createGrid(guess_len: number, guess_limit: number) {
   for (let i = 0; i < guess_limit; i++) {
     let row = document.createElement('div');
     row.classList.add('game-row');
     for (let j = 0; j < guess_len; j++) {
       let tile = document.createElement('div');
       tile.classList.add('tile');
+      tile.dataset.state = 'unchecked';
       row.appendChild(tile);
-      $gameBoard.appendChild(row);
     }
-    row.dataset.state = "incomplete";
-    game_rows.push(row);
+    row.dataset.state = i == 0 ? 'current' : 'incomplete';
+    $gameBoard.appendChild(row);
   }
-  game_rows[0].dataset.state = "current";
-  return game_rows;
 }
 
 function chooseRandomAnswer(): string {
