@@ -1,4 +1,4 @@
-import { $keyboard, getCurrentRow } from './types';
+import { $keyboard, getCurrentRow, moveToNextRow } from './types';
 import { POSSIBLE_WORDS } from './allowed-words-list';
 
 export function createKeyboard(ans: string) {
@@ -81,7 +81,7 @@ function checkWord(ans: string) {
       case 2:
         tile.dataset.state = 'present';
         break;
-      case 2:
+      case 3:
         tile.dataset.state = 'absent';
         break;
       default:
@@ -89,7 +89,9 @@ function checkWord(ans: string) {
     }
   }
 
+  moveToNextRow();
 }
+
 
 function getHints(ans: string, guess: string): number[] {
   // 0 = Unchecked

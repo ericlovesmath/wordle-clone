@@ -5,4 +5,10 @@ const getCurrentRow = () => {
   return $gameBoard.querySelector<HTMLDivElement>('[data-state="current"]')!;
 }
 
-export { $gameBoard, $keyboard, getCurrentRow };
+const moveToNextRow = () => {
+  getCurrentRow().dataset.state = "solved";
+  let new_row = $gameBoard.querySelector<HTMLDivElement>('[data-state="incomplete"]')!;
+  new_row.dataset.state = "current";
+}
+
+export { $gameBoard, $keyboard, getCurrentRow, moveToNextRow };
