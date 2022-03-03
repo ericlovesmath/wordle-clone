@@ -37,10 +37,9 @@ function addKeysToRow(chars: string, row: number) {
   });
 }
 
-function createKey(char: string): HTMLButtonElement {
-  let key = document.createElement('button');
+function createKey(char: string): HTMLDivElement {
+  let key = document.createElement('div');
   key.classList.add('key');
-  key.value = char;
   key.textContent = char;
   key.dataset.state = 'unused';
   key.onclick = () => { guessLetter(char) };

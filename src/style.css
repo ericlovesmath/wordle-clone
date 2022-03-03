@@ -93,6 +93,10 @@ header {
 }
 
 #keyboard > .row > .key {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
   text-transform: uppercase;
   width: 60px;
   margin: 0px 5px;
