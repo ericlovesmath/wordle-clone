@@ -37,26 +37,25 @@ function initGrid(guess_len: number, guess_limit: number): HTMLDivElement[] {
 }
 
 function createKeyboard() {
+  addKeysToRow('QWERTYUIOP', 0);
+  addKeysToRow('ASDFGHJKL', 1);
+  addSpecialKeysToRow('enter', 2, checkWord);
+  addKeysToRow('ZXCVBNM', 2);
+  addSpecialKeysToRow('delete', 2, removeLetter);
+}
 
-  [..."QWERTYUIOP"].forEach((c: string) => {
-    $keyboard.children[0].appendChild(createKey(c));
+function addSpecialKeysToRow(name: string, row: number, func: Function) {
+  let key = createKey(name);
+  key.classList.add('wide-key');
+  key.onclick = () => { func() };
+  $keyboard.children[row].appendChild(key);
+
+}
+
+function addKeysToRow(chars: string, row: number) {
+  [...chars].forEach((char: string) => {
+    $keyboard.children[row].appendChild(createKey(char));
   });
-  [..."ASDFGHJKL"].forEach((c: string) => {
-    $keyboard.children[1].appendChild(createKey(c));
-  });
-
-  let enter_key = createKey("enter");
-  enter_key.classList.add('wide-key');
-  enter_key.onclick = () => { checkWord() };
-  $keyboard.children[2].appendChild(enter_key);
-
-  [..."ZXCVBNM"].forEach((c: string) => {
-    $keyboard.children[2].appendChild(createKey(c));
-  });
-
-  let delete_key = createKey("delete");
-  delete_key.classList.add('wide-key');
-  $keyboard.children[2].appendChild(delete_key);
 }
 
 function createKey(char: string): HTMLButtonElement {
@@ -65,9 +64,7 @@ function createKey(char: string): HTMLButtonElement {
   key.value = char;
   key.textContent = char;
   key.dataset.state = 'unused';
-  key.onclick = () => {
-    addGuess(char);
-  };
+  key.onclick = () => { guessLetter(char) };
   return key;
 }
 
@@ -75,7 +72,7 @@ function checkWord() {
 
   console.log("Checking row...");
 
-  const $row = $gameBoard.querySelector<HTMLDivElement>('[data-state="current"]')!;
+  const $row = getCurrentRow()
   let guess = '';
   for (let tile of $row.childNodes) {
     if (tile.textContent === '') {
@@ -95,10 +92,14 @@ function checkWord() {
 
 }
 
-function addGuess(char: string) {
+function getCurrentRow(): HTMLDivElement {
+  return $gameBoard.querySelector<HTMLDivElement>('[data-state="current"]')!;
+}
+
+function guessLetter(char: string) {
   console.log("Adding Letter: " + char);
 
-  const $row = $gameBoard.querySelector<HTMLDivElement>('[data-state="current"]')!;
+  const $row = getCurrentRow();
   const $tiles = $row.children!
   for (let i = 0; i < 5; i++) {
     if ($tiles[i].textContent === '') {
@@ -106,7 +107,19 @@ function addGuess(char: string) {
       return;
     }
   };
+}
 
+function removeLetter() {
+  console.log("Removing Letter");
+
+  const $row = getCurrentRow();
+  const $tiles = $row.children!
+  for (let i = 4; i >= 0; i--) {
+    if ($tiles[i].textContent !== '') {
+      $tiles[i].textContent = '';
+      return;
+    }
+  };
 }
 
 function chooseRandomAnswer(): string {
