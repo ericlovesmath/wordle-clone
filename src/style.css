@@ -20,12 +20,12 @@ body {
 }
 
 header {
-    background-color: #28A282;
-    padding: 0.5rem 0;
-    text-align: center;
-    color: #FFF;
-    text-transform: uppercase;
-    margin: 0px;
+  background-color: #28A282;
+  padding: 0.5rem 0;
+  text-align: center;
+  color: #FFF;
+  text-transform: uppercase;
+  margin: 0px;
 }
 
 #game-container {
@@ -51,6 +51,7 @@ header {
 }
 
 #game-board > .game-row > .tile {
+  text-transform: uppercase;
   margin: 0px 5px;
   width: 70px;
   height: 70px;
@@ -80,6 +81,7 @@ header {
 }
 
 #keyboard > .row > .key {
+  text-transform: uppercase;
   width: 60px;
   margin: 0px 5px;
   background-color: red;

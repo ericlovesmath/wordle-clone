@@ -1,9 +1,8 @@
 import './style.css';
-import { POSSIBLE_WORDS } from './allowed-words-list';
-import { POSSIBLE_ANSWERS } from './allowed-answers-list';
 
-const $gameBoard = document.querySelector<HTMLDivElement>('#game-board')!;
-const $keyboard = document.querySelector<HTMLDivElement>('#keyboard')!;
+import { POSSIBLE_ANSWERS } from './allowed-answers-list';
+import { createKeyboard } from './keyboard';
+import { $gameBoard } from './types';
 
 main()
 
@@ -12,13 +11,14 @@ function main() {
   let GUESS_LEN = 5;
   let GUESS_LIMIT = 6;
 
-  initGrid(GUESS_LEN, GUESS_LIMIT);
+  createGrid(GUESS_LEN, GUESS_LIMIT);
   createKeyboard();
 
-  console.log(chooseRandomAnswer());
+  let ANSWER = chooseRandomAnswer();
+  console.log(`Answer: ${ANSWER}`);
 }
 
-function initGrid(guess_len: number, guess_limit: number): HTMLDivElement[] {
+function createGrid(guess_len: number, guess_limit: number): HTMLDivElement[] {
   let game_rows: HTMLDivElement[] = [];
   for (let i = 0; i < guess_limit; i++) {
     let row = document.createElement('div');
@@ -34,92 +34,6 @@ function initGrid(guess_len: number, guess_limit: number): HTMLDivElement[] {
   }
   game_rows[0].dataset.state = "current";
   return game_rows;
-}
-
-function createKeyboard() {
-  addKeysToRow('QWERTYUIOP', 0);
-  addKeysToRow('ASDFGHJKL', 1);
-  addSpecialKeysToRow('enter', 2, checkWord);
-  addKeysToRow('ZXCVBNM', 2);
-  addSpecialKeysToRow('delete', 2, removeLetter);
-}
-
-function addSpecialKeysToRow(name: string, row: number, func: Function) {
-  let key = createKey(name);
-  key.classList.add('wide-key');
-  key.onclick = () => { func() };
-  $keyboard.children[row].appendChild(key);
-
-}
-
-function addKeysToRow(chars: string, row: number) {
-  [...chars].forEach((char: string) => {
-    $keyboard.children[row].appendChild(createKey(char));
-  });
-}
-
-function createKey(char: string): HTMLButtonElement {
-  let key = document.createElement('button');
-  key.classList.add('key');
-  key.value = char;
-  key.textContent = char;
-  key.dataset.state = 'unused';
-  key.onclick = () => { guessLetter(char) };
-  return key;
-}
-
-function checkWord() {
-
-  console.log("Checking row...");
-
-  const $row = getCurrentRow()
-  let guess = '';
-  for (let tile of $row.childNodes) {
-    if (tile.textContent === '') {
-      console.log("Row is incomplete");
-      return;
-    } else {
-      guess += tile.textContent;
-    }
-  }
-
-  if (!POSSIBLE_WORDS.has(guess.toLowerCase())) {
-    console.log("Word not in dictionary");
-    return;
-  }
-
-  // Since the word exists, time to give hints?
-
-}
-
-function getCurrentRow(): HTMLDivElement {
-  return $gameBoard.querySelector<HTMLDivElement>('[data-state="current"]')!;
-}
-
-function guessLetter(char: string) {
-  console.log("Adding Letter: " + char);
-
-  const $row = getCurrentRow();
-  const $tiles = $row.children!
-  for (let i = 0; i < 5; i++) {
-    if ($tiles[i].textContent === '') {
-      $tiles[i].textContent = char;
-      return;
-    }
-  };
-}
-
-function removeLetter() {
-  console.log("Removing Letter");
-
-  const $row = getCurrentRow();
-  const $tiles = $row.children!
-  for (let i = 4; i >= 0; i--) {
-    if ($tiles[i].textContent !== '') {
-      $tiles[i].textContent = '';
-      return;
-    }
-  };
 }
 
 function chooseRandomAnswer(): string {
