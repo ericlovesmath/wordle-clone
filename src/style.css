@@ -110,6 +110,15 @@ header {
 }
 
 /* Absent, Present, Solved, Unused */
-#keyboard > .row > .key[data-state='unused'] {
-  background-color: gray;
+#keyboard > .row > .key[data-state='unchecked'] {
+  background-color: darkgray;
+}
+#keyboard > .row > .key[data-state='absent'] {
+  background-color: #777;
+}
+#keyboard > .row > .key[data-state='present'] {
+  background-color: #C5B465;
+}
+#keyboard > .row > .key[data-state='solved'] {
+  background-color: #79A86B;
 }

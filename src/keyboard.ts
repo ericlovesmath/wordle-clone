@@ -1,4 +1,4 @@
-import { $keyboard, getCurrentRow, moveToNextRow } from './types';
+import { $keyboard, getCurrentRow, getKey, moveToNextRow } from './types';
 import { POSSIBLE_WORDS } from './allowed-words-list';
 
 export function createKeyboard(ans: string) {
@@ -41,7 +41,8 @@ function createKey(char: string): HTMLDivElement {
   let key = document.createElement('div');
   key.classList.add('key');
   key.textContent = char;
-  key.dataset.state = 'unused';
+  key.dataset.state = 'unchecked';
+  key.id = char + '-key';
   key.onclick = () => { guessLetter(char) };
   return key;
 }
@@ -70,25 +71,39 @@ function checkWord(ans: string) {
   // Since the word exists, time to give hints?
   let hints = getHints(ans, guess);
   console.log("hints: " + hints);
+  colorKeyboardAndGrid(hints);
 
+
+  moveToNextRow();
+}
+
+function colorKeyboardAndGrid(hints: number[]) {
+  const $row = getCurrentRow()
   for (let i = 0; i < 5; i++) {
     let tile = $row.childNodes![i] as HTMLDivElement;
+    let key = getKey(tile.textContent!);
+    console.log(key);
     switch (hints[i]) {
       case 1:
         tile.dataset.state = 'solved';
+        key.dataset.state = 'solved';
         break;
       case 2:
         tile.dataset.state = 'present';
+        if (key.dataset.state !== 'solved') {
+          key.dataset.state = 'present';
+        }
         break;
       case 3:
         tile.dataset.state = 'absent';
+        if (key.dataset.state !== 'solved' && key.dataset.state !== 'present' ) {
+          key.dataset.state = 'absent';
+        }
         break;
       default:
-        console.log("Error in getHints() function");
+        console.log("Error in colorKeyboardAndGrids()");
     }
   }
-
-  moveToNextRow();
 }
 
 
