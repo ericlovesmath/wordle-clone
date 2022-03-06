@@ -98,6 +98,7 @@ header {
   margin: 10px;
   margin-top: 0px;
   min-height: 250px;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -111,12 +112,12 @@ header {
 }
 
 #keyboard > .row > .key {
+  width: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   text-transform: uppercase;
-  width: 50px;
   margin: 0px 5px;
   background-color: red;
   font-size: 20px;
