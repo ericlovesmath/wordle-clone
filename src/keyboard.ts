@@ -4,7 +4,7 @@ import { POSSIBLE_WORDS } from './allowed-words-list';
 export function createKeyboard(ans: string) {
   addKeysToRow('qwertyuiop', 0);
   addKeysToRow('asdfghjkl', 1);
-  addSpecialKeysToRow('enter', 2, checkWord);
+  addSpecialKeysToRow('enter', 2, () => { checkWord(ans) });
   addKeysToRow('zxcvbnm', 2);
   addSpecialKeysToRow('delete', 2, removeLetter);
   document.addEventListener('keydown', (e: KeyboardEvent) => {
@@ -96,7 +96,7 @@ function colorKeyboardAndGrid(hints: number[]) {
         break;
       case 3:
         tile.dataset.state = 'absent';
-        if (key.dataset.state !== 'solved' && key.dataset.state !== 'present' ) {
+        if (key.dataset.state !== 'solved' && key.dataset.state !== 'present') {
           key.dataset.state = 'absent';
         }
         break;
@@ -114,7 +114,7 @@ function getHints(ans: string, guess: string): number[] {
   // 3 = Absent
   let hints = [0, 0, 0, 0, 0];
   let remain_ans = [];
-  
+
   // Check Solved
   for (let i = 0; i < 5; i++) {
     if (ans[i] === guess[i]) {
